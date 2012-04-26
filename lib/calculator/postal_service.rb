@@ -1,5 +1,5 @@
 
-class Calculator::PostalService < Calculator
+class Calculator::PostalService < Spree::Calculator
   preference :weight_table, :string, :default => "1 2 5 10 20"
   preference :price_table, :string, :default => "6 9 12 15 18"
   preference :max_item_weight, :float, :default => 18
@@ -24,15 +24,15 @@ class Calculator::PostalService < Calculator
     variant = item.variant
     sizes = [ variant.width ? variant.width : 0 , variant.depth ? variant.depth : 0 , variant.height ? variant.height : 0 ].sort!
     #puts "Sizes " + sizes.join(" ")
-    return true if sizes[0] > self.preferred_max_item_length
-    return true if sizes[0] > self.preferred_max_item_width
+    return true if sizes[0] > self.preferred_max_item_length.to_f
+    return true if sizes[0] > self.preferred_max_item_width.to_f
     return false
   end
   
   def available?(order)
-    return false if order.total < self.preferred_min_price
+    return false if order.total < self.preferred_min_price.to_f
     order.line_items.each do |item| # determine if weight or size goes over bounds
-      return false if item.variant.weight and item.variant.weight > self.preferred_max_item_weight
+      return false if item.variant.weight and item.variant.weight > self.preferred_max_item_weight.to_f
       return false if item_oversized?( item )
     end
     return true
@@ -55,7 +55,7 @@ class Calculator::PostalService < Calculator
     puts "Price " + total_price.to_s if debug
     # determine handling fee
     puts "Handling max  " + self.preferred_handling_max.to_s  if debug
-    handling_fee = self.preferred_handling_max < total_price  ? 0 : self.preferred_handling_fee
+    handling_fee = self.preferred_handling_max.to_f < total_price  ? 0 : self.preferred_handling_fee.to_f
     puts "Handling  " + handling_fee.to_s  if debug
     weights = self.preferred_weight_table.split.map {|weight| weight.to_f} 
     puts weights.join(" ")  if debug
@@ -72,6 +72,6 @@ class Calculator::PostalService < Calculator
     shipping +=  prices[index + 1] 
     puts "Shipping  " + shipping.to_s  if debug
 
-    return shipping + handling_fee 
+    return shipping + handling_fee.to_f
   end
 end
