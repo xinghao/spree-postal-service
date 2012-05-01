@@ -1,14 +1,14 @@
 
 class Calculator::PostalService < Spree::Calculator
-  preference :weight_table, :string, :default => "1 2 5 10 20"
-  preference :price_table, :string, :default => "6 9 12 15 18"
-  preference :max_item_weight, :float, :default => 18
-  preference :max_item_width, :float, :default => 60
-  preference :max_item_length, :float, :default => 120
-  preference :min_price, :float, :default => 10
-  preference :handling_max, :float, :default => 50
-  preference :handling_fee, :float, :default => 10
-  preference :default_weight, :float, :default => 1
+  preference :weight_table, :string, :default => "0.5 1 2 3 5"
+  preference :price_table, :string, :default => "5.49 5.96 6.23 7.02 7.83"
+  preference :max_item_weight, :float, :default => 9999999
+  preference :max_item_width, :float, :default => 9999999
+  preference :max_item_length, :float, :default => 9999999
+  preference :min_price, :float, :default => 0
+  preference :handling_max, :float, :default => 0
+  preference :handling_fee, :float, :default => 0
+  preference :default_weight, :float, :default => 0.5
   
   def self.description
     "Postal"
