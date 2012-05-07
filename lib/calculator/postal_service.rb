@@ -1,7 +1,7 @@
 
 class Calculator::PostalService < Spree::Calculator
-  preference :weight_table, :string, :default => "0.5 1 2 3 5"
-  preference :price_table, :string, :default => "5.49 5.96 6.23 7.02 7.83"
+  preference :weight_table, :string, :default => "0.5 1 2 3 5 10 22"
+  preference :price_table, :string, :default => "5.49 5.96 6.23 7.02 7.83 12 20"
   preference :max_item_weight, :decimal, :default => 9999999
   preference :max_item_width, :decimal, :default => 9999999
   preference :max_item_length, :decimal, :default => 9999999
