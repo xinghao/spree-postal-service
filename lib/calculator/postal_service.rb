@@ -38,6 +38,33 @@ class Calculator::PostalService < Spree::Calculator
     return true
   end
   
+  def self.price_for_weight(weight)
+    debug = false
+    total_weight = weight
+    shipping  = 0
+    new_instance = self.new
+    prices = new_instance.preferred_price_table.split.map {|price| price.to_f }
+    puts prices.join(" ")  if debug
+    puts "Weight " + total_weight.to_s  if debug
+    weights = new_instance.preferred_weight_table.split.map {|weight| weight.to_f}
+    puts weights.join(" ")  if debug
+
+    while total_weight > weights.last  # in several packages if need be
+      total_weight -= weights.last
+      shipping += prices.last
+    end
+    puts "Shipping  " + shipping.to_s  if debug
+    index = weights.length - 2
+    while index >= 0
+      break if total_weight > weights[index] 
+      index -= 1
+    end
+    shipping +=  prices[index + 1] 
+    puts "Shipping  " + shipping.to_s  if debug
+
+    return shipping    
+  end
+  
   # as order_or_line_items we always get line items, as calculable we have Coupon, ShippingMethod or ShippingRate
   def compute(order)
     debug = false
